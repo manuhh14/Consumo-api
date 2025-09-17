@@ -1,29 +1,42 @@
 
+import { useState } from 'react';
 import './App.css'
 
 import rick from './img/rick-morty.png';
+import { Personaje } from './components/Personaje';
 
 function App() {
-  const requestApi = async() => {
-    const api = await fetch('https://rickandmortyapi.com/api/character/')
-    console.log( api);
 
-    const charactersApi = await api.json();
-    console.log(charactersApi);
+  const [characters, setCharacter] = useState(null)
+
+ const requestApi = async () => {
+    const api = await fetch('https://rickandmortyapi.com/api/character/')
+
+    const characterApi = await api.json()
+    //console.log(characterApi)
+    setCharacter(characterApi.results)
   }
 
   return (
     <div className='App'>
-
-      <header className='App-header'>
-        <h1 className='title'>Rick & Morty</h1>
-        {/* <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="Rick Sanchez" />*/}
-        <img src={rick} alt="Rick Sanchez" className='img-home' />
-        <button onClick={requestApi} className='btn-search'>Buscar personaje</button>
-
-      </header>
-
-    </div>
+          <header className='App-header'>
+            <h1 className='title'>Rirck y Morty</h1>
+    
+    
+            {characters ? (
+              <Personaje characters={characters} />
+            ) : (
+              <>
+                <img src={rick} alt="img-home" />
+                <button onClick={requestApi} className='btn-search'> Buscar personaje</button>
+              </>
+            )}
+    
+            
+            
+    
+          </header>
+        </div>
   )
 }
 
